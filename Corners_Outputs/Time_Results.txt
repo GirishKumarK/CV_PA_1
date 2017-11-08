@@ -1,0 +1,9 @@
+Time Taken by Hessian Corner Detection Method for input1.png (Secs) : 3.9707868099212646
+Time Taken by Harris Corner Detection Method 1 for input1.png (Secs) : 4.651309013366699
+Time Taken by Harris Corner Detection Method 2 for input1.png (Secs) : 5.022067308425903
+Time Taken by Hessian Corner Detection Method for input2.png (Secs) : 5.114539623260498
+Time Taken by Harris Corner Detection Method 1 for input2.png (Secs) : 6.228719711303711
+Time Taken by Harris Corner Detection Method 2 for input2.png (Secs) : 6.825749397277832
+Time Taken by Hessian Corner Detection Method for input3.png (Secs) : 6.686434268951416
+Time Taken by Harris Corner Detection Method 1 for input3.png (Secs) : 7.598358154296875
+Time Taken by Harris Corner Detection Method 2 for input3.png (Secs) : 8.239104509353638
