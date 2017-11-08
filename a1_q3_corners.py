@@ -11,6 +11,7 @@ def load_Img(filename):
     # Open and Load the Images
     ip_img = cv.imread(filename)
     cv.imshow('Original Image ' + filename, ip_img)
+    cv.waitKey(1)
     return [filename, ip_img]
 
 def get_GrayImg(params):
@@ -18,6 +19,7 @@ def get_GrayImg(params):
     # Convert the Three Channel Image to Single Channel
     g_img = np.uint8((0.30 * image[:,:,0]) + (0.59 * image[:,:,1]) + (0.11 * image[:,:,2]))
     cv.imshow('Gray Image ' + filename, image)
+    cv.waitKey(1)
     return [filename, g_img]
 
 
@@ -88,10 +90,11 @@ def get_Hessian_Corners(params):
             if ((abs(eig_val[0] - eig_val[1])) >= thresh): # Corner Case
                 corners[r, c] = 255
     
-    print 'Time Taken by Hessian Corner Detection Method for ' + filename + ' (Secs) : ' + str(tt)
+    print ('Time Taken by Hessian Corner Detection Method for ' + filename + ' (Secs) : ' + str(tt))
     lambda_1 = np.array(lambda_1).reshape(image.shape)
     lambda_2 = np.array(lambda_2).reshape(image.shape)
     cv.imshow('Hessian Corners ' + filename, corners)
+    cv.waitKey(1)
     
     # Eigen Values Statistics - For Analysis - Not Used
     lambda_1_max  = np.amax(lambda_1)
@@ -127,7 +130,7 @@ def get_Harris_Corners(params):
     sigma = params[3] # If sigma increases, blur increases
     # Notes : Sigma Matters! Don't take whole numbers!
     # Obtain the Gaussian Kernel using the Formula
-    h = np.array([i for i in range(-(n-1)/2,((n-1)/2)+1)])
+    h = np.array([i for i in range(int(-(n-1)/2),int(((n-1)/2)+1))])
     hg = np.exp(-(h**2)/(2*sigma**2))/(np.sqrt(2*np.pi)*sigma)
     g = np.array(hg).reshape(1, -1)
     
@@ -223,10 +226,12 @@ def get_Harris_Corners(params):
                 if (H_cornerness_2 >= H_thresh_2):
                     H_corners_2[r, c] = 0
     
-    print 'Time Taken by Harris Corner Detection Method 1 for ' + filename + ' (Secs) : ' + str(tt1)
-    print 'Time Taken by Harris Corner Detection Method 2 for ' + filename + ' (Secs) : ' + str(tt2)
+    print ('Time Taken by Harris Corner Detection Method 1 for ' + filename + ' (Secs) : ' + str(tt1))
+    print ('Time Taken by Harris Corner Detection Method 2 for ' + filename + ' (Secs) : ' + str(tt2))
     cv.imshow('Harris Corners Method 1 ' + filename, H_corners_1)
+    cv.waitKey(1)
     cv.imshow('Harris Corners Method 2 ' + filename, H_corners_2)
+    cv.waitKey(1)
     
     # Eigen Value Statistics - - For Analysis - Not Used
     H_lambda_1 = np.array(H_lambda_1).reshape(image.shape)

@@ -20,10 +20,12 @@ col_img = cv.imread('test1.jpg')
 #col_img = cv.imread('test5.jpg')
 col_img_size = col_img.shape
 cv.imshow('Original Image', col_img)
+cv.waitKey(1)
 
 # Convert the Three Channel Image to Single Channel
 I = np.uint8((0.30 * col_img[:,:,0]) + (0.59 * col_img[:,:,1]) + (0.11 * col_img[:,:,2]))
 cv.imshow('Gray Image', I)
+cv.waitKey(1)
 I_size = I.shape
 
 # Variables
@@ -36,7 +38,7 @@ hist = np.zeros([1, L]).reshape(1, -1)
 pixels = I_size[0] * I_size[1]
 for n in range(0, L):
     hist[:, n] = np.count_nonzero(I == n)
-plt.figure('Image Histogram Before Equalization')
+plt.figure('Image Histogram')
 plt.step(hvals[0, :], hist[0, :], 'r')
 plt.xlabel('Gray Values')
 plt.ylabel('No. of Gray Value Occurences')
@@ -96,6 +98,7 @@ new_I = np.zeros(I_size)
 new_I[I < threshold] = 0
 new_I[I >= threshold] = 255
 cv.imshow('Image After Entropy Thresholding', np.uint8(new_I))
+cv.waitKey(1)
 
 
 # Another Thresholding Method Based on Histogram
@@ -140,6 +143,7 @@ new_I = np.zeros(I_size)
 new_I[I < h_threshold] = 0
 new_I[I >= h_threshold] = 255
 cv.imshow('Image After Histogram Analytical Thresholding', np.uint8(new_I))
+cv.waitKey(1)
 
 
 # Another Thresholding Method Based on Entropy
@@ -184,6 +188,7 @@ new_I = np.zeros(I_size)
 new_I[I < e_threshold] = 0
 new_I[I >= e_threshold] = 255
 cv.imshow('Image After Entropy Analytical Thresholding', np.uint8(new_I))
+cv.waitKey(1)
 
 
 end = time.time()

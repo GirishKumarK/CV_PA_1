@@ -23,10 +23,12 @@ col_img = cv.imread('uneq_hist_1.jpg')
 #col_img = cv.imread('test5.jpg')
 col_img_size = col_img.shape
 cv.imshow('Original Image', col_img)
+cv.waitKey(1)
 
 # Convert the Three Channel Image to Single Channel
 g_img = np.uint8((0.30 * col_img[:,:,0]) + (0.59 * col_img[:,:,1]) + (0.11 * col_img[:,:,2]))
 cv.imshow('Grayscale Image', g_img)
+cv.waitKey(1)
 
 
 def get_Hist(image):
@@ -78,7 +80,8 @@ def Eq_Hist(params):
     for n in range(0, int(L)):
         hist_Eq[n] = round(((L - 1) * (cdf[n] - cdf_min))/((M * N) - 1))
     # Again, if any value <= 0, put it to 0
-    hist_Eq[hist_Eq <= 0] = 0.0
+    hist_Eq = np.array(hist_Eq)
+    hist_Eq[hist_Eq <= 0.0] = 0.0
     # Return Image and Equalized Histogram Distribution
     return [image, hist_Eq]
 

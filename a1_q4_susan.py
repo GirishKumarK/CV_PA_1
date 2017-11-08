@@ -10,52 +10,56 @@ start = time.time()
 ip_img_1 = cv.imread('susan_input1.png')
 ip_img_2 = cv.imread('susan_input2.png')
 cv.imshow('Original Image 1', ip_img_1)
+cv.waitKey(1)
 cv.imshow('Original Image 2', ip_img_2)
+cv.waitKey(1)
 
 # Convert the Three Channel Image to Single Channel
 g_img_1 = np.float64((0.30 * ip_img_1[:,:,0]) + (0.59 * ip_img_1[:,:,1]) + (0.11 * ip_img_1[:,:,2]))
 g_img_2 = np.float64((0.30 * ip_img_2[:,:,0]) + (0.59 * ip_img_2[:,:,1]) + (0.11 * ip_img_2[:,:,2]))
 cv.imshow('Gray Image 1', np.uint8(g_img_1))
+cv.waitKey(1)
 cv.imshow('Gray Image 2', np.uint8(g_img_2))
+cv.waitKey(1)
 I1_size = g_img_1.shape
 I2_size = g_img_2.shape
 
 def filt_Median(params):
     # Median Filter Odd Dimension Kernel
     img = params[0]
-    dim = params[1]
-    pad_img = np.lib.pad(img, (((dim-1)/2, (dim-1)/2), ((dim-1)/2, (dim-1)/2)), 'constant', constant_values = 0)
-    for r in range((dim-1)/2, int(pad_img.shape[0]-((dim-1)/2))):
-        for c in range((dim-1)/2, int(pad_img.shape[1]-((dim-1)/2))):
+    dim = int(params[1])
+    pad_img = np.lib.pad(img, ((int((dim-1)/2), int((dim-1)/2)), (int((dim-1)/2), int((dim-1)/2))), 'constant', constant_values = 0)
+    for r in range(int((dim-1)/2), int(pad_img.shape[0]-(int((dim-1)/2)))):
+        for c in range(int((dim-1)/2), int(pad_img.shape[1]-(int((dim-1)/2)))):
             vals = list()
-            for i in range(int(r-((dim-1)/2)), int(r+((dim-1)/2))+1):
-                for j in range(int(c-((dim-1)/2)), int(c+((dim-1)/2))+1):
+            for i in range(int(r-(int((dim-1)/2))), int(r+(int((dim-1)/2)))+1):
+                for j in range(int(c-(int((dim-1)/2))), int(c+(int((dim-1)/2)))+1):
                     vals.append(pad_img[i][j])
             med = np.median(np.array(vals))
             pad_img[r, c] = med
-    filt_img = pad_img[((dim-1)/2):int(pad_img.shape[0]-((dim-1)/2)), ((dim-1)/2):int(pad_img.shape[1]-((dim-1)/2))]
+    filt_img = pad_img[(int((dim-1)/2)):int(pad_img.shape[0]-(int((dim-1)/2))), (int((dim-1)/2)):int(pad_img.shape[1]-(int((dim-1)/2)))]
     return filt_img
 
 def filt_Mean(params):
     # Mean Filter Odd Dimension Kernel
     img = params[0]
-    dim = params[1]
-    pad_img = np.lib.pad(img, (((dim-1)/2, (dim-1)/2), ((dim-1)/2, (dim-1)/2)), 'edge')
-    for r in range((dim-1)/2, int(pad_img.shape[0]-((dim-1)/2))):
-        for c in range((dim-1)/2, int(pad_img.shape[1]-((dim-1)/2))):
+    dim = int(params[1])
+    pad_img = np.lib.pad(img, ((int((dim-1)/2), int((dim-1)/2)), (int((dim-1)/2), int((dim-1)/2))), 'edge')
+    for r in range(int((dim-1)/2), int(pad_img.shape[0]-(int((dim-1)/2)))):
+        for c in range(int((dim-1)/2), int(pad_img.shape[1]-(int((dim-1)/2)))):
             vals = list()
-            for i in range(int(r-((dim-1)/2)), int(r+((dim-1)/2))+1):
-                for j in range(int(c-((dim-1)/2)), int(c+((dim-1)/2))+1):
+            for i in range(int(r-(int((dim-1)/2))), int(r+(int((dim-1)/2)))+1):
+                for j in range(int(c-(int((dim-1)/2))), int(c+(int((dim-1)/2)))+1):
                     vals.append(pad_img[i][j])
             mean = np.mean(np.array(vals))
             pad_img[r, c] = mean
-    filt_img = pad_img[((dim-1)/2):int(pad_img.shape[0]-((dim-1)/2)), ((dim-1)/2):int(pad_img.shape[1]-((dim-1)/2))]
+    filt_img = pad_img[(int((dim-1)/2)):int(pad_img.shape[0]-(int((dim-1)/2))), (int((dim-1)/2)):int(pad_img.shape[1]-(int((dim-1)/2)))]
     return filt_img
 
 def filt_Box(params):
     # Box Blur Kernel
     img = params[0]
-    dim = params[1]
+    dim = int(params[1])
     mul = params[2]
     box = np.ones([dim, dim], dtype='float').reshape(dim, dim)
     box = np.divide(box, mul**2, dtype='float')
